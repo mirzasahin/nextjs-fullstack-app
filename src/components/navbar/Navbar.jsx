@@ -26,16 +26,11 @@ const links = [
   },
   {
     id: 5,
-    title: "About",
-    url: "/about",
-  },
-  {
-    id: 6,
     title: "Contact",
     url: "/contact",
   },
   {
-    id: 7,
+    id: 6,
     title: "Dashboard",
     url: "/dashboard",
   },
