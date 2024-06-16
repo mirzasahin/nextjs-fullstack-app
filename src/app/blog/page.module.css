@@ -1,2 +1,30 @@
-.container{
+.mainContainer{
+    
+}
+.container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin-bottom: 50px;
+}
+
+.item {}
+
+.imgContainer {
+
+}
+
+.img {
+    object-fit: cover;
+}
+
+.content {}
+
+.title {
+    margin-bottom: 10px;
+}
+
+.desc {
+    font-size: 18px;
+    color: #999;
 }
