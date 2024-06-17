@@ -2,13 +2,14 @@ import React from 'react'
 import styles from './page.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 async function getData() {
   const res = await fetch('https://jsonplaceholder.typicode.com/posts', { cache: 'no-store' })
 
   if (!res.ok) {
-    throw new Error('Failed to fetch data')
-  }
+    return notFound()
+  } 
 
   return res.json()
 }
