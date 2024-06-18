@@ -13,7 +13,17 @@ async function getData(id) {
   return res.json()
 }
 
-const BlogPost = async ({params}) => {
+// or Dynamic metadata
+export async function generateMetadata({ params }) {
+
+  const post = await getData(params.id)
+  return {
+    title: post.title,
+    description: post.desc,
+  }
+}
+
+const BlogPost = async ({ params }) => {
   const data = await getData(params.id)
 
   return (
@@ -24,12 +34,12 @@ const BlogPost = async ({params}) => {
           <p className={styles.desc}>{data.desc}</p>
 
           <div className={styles.author}>
-            <Image width={40} height={40} className={styles.avatar} alt='' src={data.userImg}/>
+            <Image width={40} height={40} className={styles.avatar} alt='' src={data.userImg} />
             <span className={styles.username}>{data.username}</span>
           </div>
         </div>
         <div className={styles.imageContainer}>
-          <Image fill={true} alt='' className={styles.image} src={data.postImg}/>
+          <Image fill={true} alt='' className={styles.image} src={data.postImg} />
         </div>
       </div>
       <div className={styles.content}>
