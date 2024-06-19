@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import useSWR from "swr";
+import { useSession } from "next-auth/react";
 
 const Dashboard = () => {
   /* const [data, setData] = useState([]);
@@ -27,6 +28,10 @@ const Dashboard = () => {
     };
     getData();
   }, []); */
+
+  const session = useSession()
+  console.log(session)
+
   const fetcher = (...args) => fetch(...args).then(res => res.json())
 
   const {data, error, isLoading} = useSWR("https://jsonplaceholder.typicode.com/posts", fetcher)
@@ -34,7 +39,7 @@ const Dashboard = () => {
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>
 
-  return <div className={styles.container}>{data[0].id}</div>;
+  return <div className={styles.container}>DashBoard</div>;
 };
 
 export default Dashboard;
