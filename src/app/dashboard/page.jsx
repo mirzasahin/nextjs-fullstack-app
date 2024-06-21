@@ -35,7 +35,7 @@ const Dashboard = () => {
   const router = useRouter()
 
   const fetcher = (...args) => fetch(...args).then(res => res.json())
-  const { data, error, isLoading } = useSWR(`/api/posts?username=${session?.data?.user.name}`, fetcher)
+  const { data, error, mutate, isLoading } = useSWR(`/api/posts?username=${session?.data?.user.name}`, fetcher)
 
   console.log(data)
 
@@ -52,8 +52,7 @@ const Dashboard = () => {
     const title = e.target[0].value;
     const desc = e.target[1].value;
     const postImg = e.target[2].value;
-    const userImg = e.target[3].value;
-    const content = e.target[4].value;
+    const content = e.target[3].value;
 
     try {
 
@@ -63,15 +62,26 @@ const Dashboard = () => {
           title,
           desc,
           postImg,
-          userImg,
           content,
           username: session.data.user.name
         })
       })
+      mutate();
+      e.target.reset()
     } catch (err) {
       console.log(err)
     }
+  }
 
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`/api/posts/${id}`, {
+        method: "DELETE",
+      })
+      mutate()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   if (session.status === "authenticated") {
@@ -84,7 +94,7 @@ const Dashboard = () => {
                 <Image src={post.postImg} alt="" width={200} height={100} />
               </div>
               <h2 className={styles.postTitle}>{post.title}</h2>
-              <span className={styles.delete}>X</span>
+              <span className={styles.delete} onClick={() => handleDelete(post._id)}>X</span>
             </div>
           ))}
         </div >
@@ -92,7 +102,6 @@ const Dashboard = () => {
           <h1>Add New Post</h1>
           <input type="text" placeholder="Title" className={styles.input} />
           <input type="text" placeholder="Desc" className={styles.input} />
-          <input type="text" placeholder="Image" className={styles.input} />
           <input type="text" placeholder="Image" className={styles.input} />
           <textarea placeholder="Content" className={styles.textArea} cols="30" rows="10"></textarea>
           <button className={styles.button}>Send</button>
